@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormArray, Validators, AbstractControl } from '@angular/forms';
 import { PostService } from '../post.service';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
+import { timer } from 'rxjs';
 
 export const titleExistValidator = (postService: PostService) => (control: AbstractControl) => {
-  return postService.titleExist(control.value).pipe(map(result => (result.titleExist ? result : null)));
+  return timer(1000).pipe(
+    switchMap(_ => postService.titleExist(control.value)),
+    map(result => (result.titleExist ? result : null))
+  );
 };
 
 @Component({

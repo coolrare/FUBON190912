@@ -5,18 +5,43 @@
       <div class="col-md-6 col-md-offset-3 col-xs-12">
         <h1 class="text-xs-center">Sign in</h1>
 
-        <div>
+        <form #form="ngForm">
           <fieldset class="form-group">
-            <input [(ngModel)]="email" name="email" class="form-control form-control-lg" type="text" placeholder="Email">
+            <!-- <input [(ngModel)]="email" #emailInput="ngModel" required email name="email"
+              class="form-control form-control-lg" type="text" placeholder="Email"> -->
+            <input ngModel #emailInput="ngModel" required email name="email" class="form-control form-control-lg"
+              type="text" placeholder="Email">
+            <p>
+              {{ emailInput.value }}
+            </p>
+            <div *ngIf="emailInput.invalid">
+              <p *ngIf="emailInput.errors['required']">
+                請輸入 Email
+              </p>
+              <p *ngIf="emailInput.errors['email']">
+                Email 格式錯誤
+              </p>
+              <p>
+                {{ emailInput.errors | json }}
+              </p>
+            </div>
           </fieldset>
 
           <fieldset class="form-group">
-            <input [(ngModel)]="password" name="password" class="form-control form-control-lg" type="password" placeholder="Password" >
+            <input ngModel #passwordInput="ngModel" required minlength="4" name="password"
+              class="form-control form-control-lg" type="password" placeholder="Password">
+            <div *ngIf="passwordInput.invalid">
+              {{ passwordInput.errors | json }}
+            </div>
           </fieldset>
-          <button class="btn btn-lg btn-primary pull-xs-right" (click)="login()">
+          <button [disabled]="form.invalid" class="btn btn-lg btn-primary pull-xs-right" (click)="login(form)">
             Sign in
           </button>
-        </div>
+
+          <div>
+            {{ form.value | json }}
+          </div>
+        </form>
       </div>
 
     </div>

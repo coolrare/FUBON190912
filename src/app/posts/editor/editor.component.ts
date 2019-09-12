@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormArray } from '@angular/forms';
+import { FormBuilder, FormArray, Validators, AbstractControl } from '@angular/forms';
 import { PostService } from '../post.service';
+import { map } from 'rxjs/operators';
+
+export const titleExistValidator = (postService: PostService) => (control: AbstractControl) => {
+  return postService.titleExist(control.value).pipe(map(result => (result.titleExist ? result : null)));
+};
 
 @Component({
   selector: 'app-editor',
@@ -9,9 +14,9 @@ import { PostService } from '../post.service';
 })
 export class EditorComponent implements OnInit {
   form = this.fb.group({
-    title: this.fb.control('test'),
+    title: this.fb.control('test', Validators.required, titleExistValidator(this.postService)),
     description: this.fb.control(''),
-    body: this.fb.control('body...'),
+    body: this.fb.control('body...', [Validators.required, Validators.minLength(10)]),
     tagList: this.fb.array([this.fb.control('HTML'), this.fb.control('CSS'), this.fb.control('JavaSCript')])
   });
 

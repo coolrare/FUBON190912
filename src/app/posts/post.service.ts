@@ -21,4 +21,8 @@ export class PostService {
   createArticle(article: CreateArticle) {
     return this.httpClient.post<SingleArticle>(`${environment.apiUrl}/api/articles`, { article });
   }
+
+  titleExist(title: string) {
+    return this.httpClient.get<{titleExist: boolean}>(`${environment.apiUrl}/api/articles/title-exist/${encodeURI(title)}`);
+  }
 }

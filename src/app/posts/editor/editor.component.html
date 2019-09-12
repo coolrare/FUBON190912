@@ -5,19 +5,24 @@
       <div class="col-md-10 col-md-offset-1 col-xs-12">
         <div [formGroup]="form">
           <fieldset class="form-group">
-            <input class="form-control form-control-lg" type="text" placeholder="Post Title"
-              formControlName="title">
+            <input class="form-control form-control-lg" type="text" placeholder="Post Title" formControlName="title">
+
+            <div *ngIf="form.get('title').invalid">
+              {{ form.get('title').errors | json }}
+            </div>
           </fieldset>
           <fieldset class="form-group">
-            <textarea class="form-control" rows="8" placeholder="Write your post (in markdown)" formControlName="body"></textarea>
+            <textarea class="form-control" rows="8" placeholder="Write your post (in markdown)"
+              formControlName="body"></textarea>
+
+            <div *ngIf="form.get('body').invalid">
+              {{ form.get('body').errors | json }}
+            </div>
           </fieldset>
           <fieldset class="form-group" formArrayName="tagList">
 
-            <input class="form-control" type="text"
-            placeholder="Enter tags"
-            [formControl]="control"
-            (dblclick)="removeTag(index)"
-            *ngFor="let control of tags; let index = index" >
+            <input class="form-control" type="text" placeholder="Enter tags" [formControl]="control"
+              (dblclick)="removeTag(index)" *ngFor="let control of tags; let index = index">
 
             <!-- <div *ngFor="let control of form.get('tags').controls; let index = index">
               <input [formControlName]="index" >
@@ -34,7 +39,7 @@
                 <i class="ion-close-round"></i> webdev</span>
             </div>
           </fieldset>
-          <button type="button" class="btn btn-lg btn-primary pull-xs-right" (click)="save()">
+          <button type="button" class="btn btn-lg btn-primary pull-xs-right" (click)="save()" [disabled]="form.invalid">
             Create Post
           </button>
         </div>

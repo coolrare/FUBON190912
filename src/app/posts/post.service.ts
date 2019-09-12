@@ -3,10 +3,6 @@ import { environment } from 'src/environments/environment';
 import { Articles, SingleArticle, CreateArticle } from './article';
 import { HttpClient } from '@angular/common/http';
 
-
-const a = environment.apiUrl + '/api/articles/' + '1234';
-const b = `${environment.apiUrl}`;
-
 @Injectable({
   providedIn: 'root'
 })

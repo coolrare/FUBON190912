@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Articles, SingleArticle, CreateArticle } from './article';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private authService: AuthService) {}
 
   getArticles() {
     console.log(environment);
@@ -19,7 +20,11 @@ export class PostService {
   }
 
   createArticle(article: CreateArticle) {
-    return this.httpClient.post<SingleArticle>(`${environment.apiUrl}/api/articles`, { article });
+    return this.httpClient.post<SingleArticle>(`${environment.apiUrl}/api/articles`, { article }, {
+      headers: {
+        Authorization: `Token ${this.authService.getToken()}`
+      }
+    });
   }
 
   titleExist(title: string) {

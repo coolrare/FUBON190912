@@ -29,7 +29,8 @@ export class LoginComponent implements OnInit {
       this.authService.login(form.value.email, form.value.password).subscribe(
         result => {
           console.log(result);
-          localStorage.setItem('apiKey', result.user.token);
+          this.authService.setLogin(result.user.token);
+          // localStorage.setItem('apiKey', result.user.token);
           this.router.navigateByUrl(this.redirect);
         },
         (err: HttpErrorResponse) => {

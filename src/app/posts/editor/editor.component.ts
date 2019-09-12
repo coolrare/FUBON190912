@@ -3,6 +3,7 @@ import { FormBuilder, FormArray, Validators, AbstractControl } from '@angular/fo
 import { PostService } from '../post.service';
 import { map, switchMap } from 'rxjs/operators';
 import { timer } from 'rxjs';
+import { Router } from '@angular/router';
 
 export const titleExistValidator = (postService: PostService) => (control: AbstractControl) => {
   return timer(1000).pipe(
@@ -28,7 +29,7 @@ export class EditorComponent implements OnInit {
     return (this.form.get('tagList') as FormArray).controls;
   }
 
-  constructor(private fb: FormBuilder, private postService: PostService) {}
+  constructor(private fb: FormBuilder, private postService: PostService, private router: Router) {}
 
   ngOnInit() {
     // console.log(this.form.get('tagList').controls);
@@ -48,6 +49,7 @@ export class EditorComponent implements OnInit {
     console.log(this.form.value);
     this.postService.createArticle(this.form.value).subscribe(result => {
       console.log(result);
+      this.router.navigateByUrl('/');
     });
   }
 }

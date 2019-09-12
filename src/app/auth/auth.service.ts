@@ -19,4 +19,16 @@ export class AuthService {
 
     return this.httpClient.post<LoginUser>(`${environment.apiUrl}/api/users/login`, body);
   }
+
+  isLogin() {
+    return !!localStorage.getItem('apiKey');
+  }
+
+  setLogin(token: string) {
+    localStorage.setItem('apiKey', token);
+  }
+
+  getToken() {
+    return localStorage.getItem('apiKey');
+  }
 }
